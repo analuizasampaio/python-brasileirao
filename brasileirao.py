@@ -40,8 +40,12 @@ dica: busque em dados['fases']
 Observe que essa função (e todas as demais!) recebem os dados dos
 jogos numa variável dados. Essa variável contém todas as informações do
 arquivo JSON que acompanha essa atividade.
-'''
+''' 
+
 def datas_de_jogo(dados):
+    datas = dados['fases']['2700']['jogos']['data']
+    # 
+    return datas
     raise Exception("Implemente isso aqui.")
 
 '''
@@ -59,7 +63,13 @@ somente fazer os meus testes. Para isso, note que muitos números
 nesse arquivo estão representados não como números, mas sim como strings.
 '''
 def data_de_um_jogo(dados, id_jogo):
-    raise Exception("Implemente isso aqui.")
+    try:
+        data = dados['fases']['2700']['jogos']['id'][id_jogo]['data']
+        return data
+    except KeyError:
+        return('nao encontrado')
+
+
 
 '''
 ********** EXERCÍCIO 3: **********
@@ -80,9 +90,14 @@ def ids_dos_times_de_um_jogo(dados, id_jogo):
     return time1, time2 # Assim a gente retorna as duas respostas em um único return.
 '''
 def ids_dos_times_de_um_jogo(dados, id_jogo):
-    time1 = 12
-    time2 = 13
-    return time1, time2 # Assim nós retornamos as duas respostas em um único return.
+    try:
+        jogo = dados['fases']['2700']['jogos']['id'][id_jogo]
+        time1 = jogo['time1']
+        time2 = jogo['time2']
+        return time1, time2
+    except KeyError:
+        print('nao encontrado')
+ # Assim nós retornamos as duas respostas em um único return.
 
 '''
 ********** EXERCÍCIO 4: **********
@@ -90,7 +105,13 @@ def ids_dos_times_de_um_jogo(dados, id_jogo):
 Desenvolva a função que recebe a id_numerica de um time e retorna seu 'nome-comum'.
 '''
 def nome_do_time(dados, id_time):
-    raise Exception("Implemente isso aqui.")
+    try:
+        time = dados['equipes'][id_time]
+        nome = time['nome-comum']
+        return nome
+    except KeyError:
+        return('nao encontrado')
+
 
 '''
 ********** EXERCÍCIO 5: **********
@@ -99,7 +120,16 @@ Desenvolva a função que "cruza" as duas anteriores. Recebe uma id de um jogo
 e retorna os "nome-comum" dos dois times.
 '''
 def nomes_dos_times_de_um_jogo(dados, id_jogo):
-    raise Exception("Implemente isso aqui.")
+    try:
+        jogo = dados['fases']['2700']['jogos']['id'][id_jogo]
+        time1 = jogo['time1']
+        time2 = jogo['time2']
+        
+        nome1 = dados['equipes'][time1]['nome-comum']
+        nome2 = dados['equipes'][time2]['nome-comum']
+        return nome1, nome2
+    except KeyError:
+        return('nao encontrado')
 
 '''
 ********** EXERCÍCIO 6: **********
@@ -110,7 +140,16 @@ Conhecendo o nome-comum de um time, queremos saber sua id.
 Se o nome comum não existir, retorne 'nao encontrado'.
 '''
 def id_do_time(dados, nome_time):
-    raise Exception("Implemente isso aqui.")
+    try:
+        times = dados['equipes']
+        for t in times:
+            if times[t]['nome-comum'] == nome_time:
+                return times[t]['id']
+
+    except KeyError:
+        print(times[t]['nome-comum'])
+        return('nao encontrado')
+        
 
 '''
 ********** EXERCÍCIO 7: **********
